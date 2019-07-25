@@ -1,9 +1,9 @@
 <template>
   <div>
     <ol>
-      <!-- <li v-for="package in packagelist" :key="package.id"> -->
-
-      <!-- </li> -->
+      <li v-for="packageData in filterPackages" :key="packageData.id">
+        {{packageData}}
+      </li>
     </ol>
   </div>
 </template>
@@ -11,10 +11,9 @@
 export default {
   name: "package-list",
   components: {},
-  computed: {
-    packagelist() {
-      return this.$store.state.packagelist;
-    }
-  }
+  mounted() {
+    this.$store.dispatch('loadPackageList');
+  },
+  
 };
 </script>

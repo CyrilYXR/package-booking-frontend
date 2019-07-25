@@ -33,11 +33,8 @@ export default {
   components: {
     packagelist
   },
-  methods(){
+  methods: {
     
-  },
-  created: {
-
   }
 };
 </script>
