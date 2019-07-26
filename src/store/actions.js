@@ -22,6 +22,20 @@ export default {
         axios.post('http://localhost:8084/packages', addEntity)
             .then(function (response) {
                 axios.get('http://localhost:8084/packages')
+                    .then(function (response) {
+                        commit('loadPackageList', response.data)
+                    }).catch(function (error) {
+                        console.log(error)
+                    })
+            }).catch(function (error) {
+                console.log(error)
+            })
+    },
+    updatePackage({commit}, entity){
+        axios.put('http://localhost:8084/packages/'+entity.id, entity)
+        .then(function (response) {
+            console.log(response.data);
+            axios.get('http://localhost:8084/packages')
                 .then(function (response) {
                     commit('loadPackageList', response.data)
                 }).catch(function (error) {
@@ -30,5 +44,5 @@ export default {
         }).catch(function (error) {
             console.log(error)
         })
-}
+},
 }

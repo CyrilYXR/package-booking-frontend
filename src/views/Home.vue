@@ -51,7 +51,7 @@
             ]"
                 />
               </a-form-item>
-              
+
               <a-form-item label="重量" v-model="addEntity.weight">
                 <a-input
                   v-decorator="[
@@ -66,7 +66,7 @@
       </a-row>
     </div>
     <div>
-      <table>
+      <!-- <table>
         <tr>
           <td>运单号</td>
           <td>收件人</td>
@@ -82,13 +82,24 @@
           <td>{{showStatus(packageData.status)}}</td>
           <td>{{packageData.reserveTime}}</td>
         </tr>
-      </table>
+      </table>-->
+      <a-table bordered :dataSource="dataSource" :columns="columns">
+        <template slot="operation" slot-scope="text, record">
+          <a-popconfirm
+            v-if="dataSource.length"
+            title="确认收货?"
+            @confirm="() => onConfirm(record)"
+          >
+            <a href="javascript:;">确认收货</a>
+          </a-popconfirm>
+        </template>
+      </a-table>
     </div>
   </div>
 </template>
 
 <script>
-import { constants } from 'crypto';
+import { constants } from "crypto";
 export default {
   name: "home",
   components: {},
@@ -97,6 +108,9 @@ export default {
   },
   computed: {
     packages() {
+      return this.$store.state.packages;
+    },
+    dataSource() {
       return this.$store.state.packages;
     }
   },
@@ -107,35 +121,63 @@ export default {
     filterByStatus(status) {
       this.$store.dispatch("filterByStatus", status);
     },
-    showModal () {
+    showModal() {
       this.visible = true;
     },
-    handleCancel  () {
+    handleCancel() {
       this.visible = false;
     },
-    handleCreate () {
-      const form = this.form
+    handleCreate() {
+      const form = this.form;
       form.validateFields((err, values) => {
         if (err) {
-          console.log(err)
+          console.log(err);
           return;
         }
-        console.log('Received values of form: ', values);
-        this.$store.dispatch('addPackage',values);
+        console.log("Received values of form: ", values);
+        this.$store.dispatch("addPackage", values);
         form.resetFields();
         this.visible = false;
       });
     },
-    showStatus(status){
-      return status === 0 ? "未取件" : status === 1 ? "已预约" : "已取件"
+    showStatus(status) {
+      return status === 0 ? "未取件" : status === 1 ? "已预约" : "已取件";
+    },
+  
+    onConfirm(entity) {
+      entity.status = 2;
+      this.$store.dispatch("updatePackage", entity);
     }
   },
-  data(){
-    return{
+  data() {
+    return {
       visible: false,
       form: this.$form.createForm(this),
-      addEntity: {'id':'','name':'','weight':'','phone':'','stauts':0},
-    }
+      addEntity: { id: "", name: "", weight: "", phone: "", stauts: 0 },
+      columns: [{
+          title: '运单号',
+          dataIndex: 'id',
+          width: '10%',
+          scopedSlots: {customRender: 'id'},
+        }, {
+          title: '收件人',
+          dataIndex: 'name',
+          width: '15%',
+        }, {
+          title: '电话',
+          dataIndex: 'phone',
+        }, {
+          title: '状态',
+          dataIndex: 'status',  
+        }, {
+          title: '预约时间',
+          dataIndex: 'reserveTime',
+        }, {
+          title: '',
+          dataIndex: 'operation',
+          scopedSlots: {customRender: 'operation'},
+        }],
+    };
   }
 };
 </script>
