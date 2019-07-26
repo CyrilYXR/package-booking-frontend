@@ -44,5 +44,17 @@ export default {
         }).catch(function (error) {
             console.log(error)
         })
-},
+    },
+
+    booking({commit}, entity){
+        axios.put('http://localhost:8084/packages/'+entity.id, entity)
+        .then(function (response) {
+            window.alert('预约成功');
+        }).catch(function (error) {
+            window.alert('预约失败');
+            console.log(error);
+        })
+    }
+        
 }
+

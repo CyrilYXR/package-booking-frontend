@@ -119,6 +119,7 @@ export default {
         }
         console.log("Received values of form: ", values);
         this.$store.dispatch("addPackage", values);
+        window.alert('创建成功');
         form.resetFields();
         this.visible = false;
       });

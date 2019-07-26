@@ -67,8 +67,9 @@ export default {
           console.log(err);
           return;
         }
-        this.$store.dispatch("updatePackage", values);
+        this.$store.dispatch("booking", values);
         form.resetFields();
+        
         this.visible = false;
       });
     }
