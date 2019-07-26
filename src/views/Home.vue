@@ -4,19 +4,19 @@
       <a-row>
         <a-col :span="14">菜鸟驿站</a-col>
         <a-col :span="2">
-          <a-button >All</a-button>
+          <a-button @click="loadAllPackages()">All</a-button>
         </a-col>
         <a-col :span="2">
-          <a-button>已预约</a-button>
+          <a-button @click="filterByStatus(1)">已预约</a-button>
         </a-col>
         <a-col :span="2">
-          <a-button>已取件</a-button>
+          <a-button @click="filterByStatus(2)">已取件</a-button>
         </a-col>
         <a-col :span="2">
-          <a-button>未预约</a-button>
+          <a-button @click="filterByStatus(0)">未预约</a-button>
         </a-col>
         <a-col :span="2">
-          <a-button>+添加</a-button>
+          <a-button>+添加</a-button> 
         </a-col>
       </a-row>
     </div>
@@ -31,7 +31,7 @@
         <td>操作</td>
       </tr>
       <tr v-for="packageData in packages" :key="packageData.id">
-        <td>{{packageData.waybillNumber}}</td>
+        <td>{{packageData.id}}</td>
         <td>{{packageData.name}}</td>
         <td>{{packageData.phone}}</td>
         <td>{{packageData.status}}</td>
@@ -53,6 +53,14 @@ export default {
   computed:{
     packages(){
       return this.$store.state.packages
+    }
+  },
+  methods:{
+    loadAllPackages(){
+      this.$store.dispatch('loadPackageList');
+    },
+    filterByStatus(status) {
+      this.$store.dispatch('filterByStatus', status)
     }
   }
 }
