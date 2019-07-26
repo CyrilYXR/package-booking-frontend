@@ -66,23 +66,6 @@
       </a-row>
     </div>
     <div>
-      <!-- <table>
-        <tr>
-          <td>运单号</td>
-          <td>收件人</td>
-          <td>电话</td>
-          <td>状态</td>
-          <td>预约时间</td>
-          <td>操作</td>
-        </tr>
-        <tr v-for="packageData in packages" :key="packageData.id">
-          <td>{{packageData.id}}</td>
-          <td>{{packageData.name}}</td>
-          <td>{{packageData.phone}}</td>
-          <td>{{showStatus(packageData.status)}}</td>
-          <td>{{packageData.reserveTime}}</td>
-        </tr>
-      </table>-->
       <a-table bordered :dataSource="dataSource" :columns="columns">
         <template slot="operation" slot-scope="text, record">
           <a-popconfirm
